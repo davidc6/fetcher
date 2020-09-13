@@ -9,6 +9,7 @@ describe('urlFetcher', () => {
     { objectOne: 'some-data' },
     { objectTwo: 'some-more-data' },
   ];
+  const expectedTimeout = 3000;
 
   test('fetch() should return a valid data structure if promise resolves', async () => {
     const fixture = {
@@ -20,7 +21,7 @@ describe('urlFetcher', () => {
 
     const response = await urlFetcher.fetch([urlFixture]);
 
-    expect(axios.get).toHaveBeenCalledWith('https://google.co.uk', { timeout: 2000 });
+    expect(axios.get).toHaveBeenCalledWith('https://google.co.uk', { timeout: expectedTimeout });
     expect(response).toEqual([{ status: 'ok', url: 'https://google.co.uk', data: dataFixture }]);
   });
 
@@ -35,7 +36,7 @@ describe('urlFetcher', () => {
 
     const response = await urlFetcher.fetch([urlFixture]);
 
-    expect(axios.get).toHaveBeenCalledWith('https://google.co.uk', { timeout: 2000 });
+    expect(axios.get).toHaveBeenCalledWith('https://google.co.uk', { timeout: expectedTimeout });
     expect(response).toEqual([{
       status: 'error', url: 'https://google.co.uk', message: 'some error.', data: null,
     }]);
