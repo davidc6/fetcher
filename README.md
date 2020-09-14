@@ -53,7 +53,10 @@ The response schema will always contain an array of objects.
     status: 'ok',
     // request url
     url: 'https://google.co.uk',
+    // this property will only be included in the response in case of a failed request
+    message: 'error occurred',
     // response payload
+    // could contain either actual response payload or null in case of error
     data: {}
   }
 ]
