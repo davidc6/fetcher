@@ -1,4 +1,4 @@
-const transform = require('../../src/components/transformer');
+const { transform } = require('../../src/components/transformer');
 
 describe('transformer', () => {
   const mockFullfilledPromise = {

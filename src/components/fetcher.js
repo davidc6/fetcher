@@ -1,9 +1,7 @@
 const axios = require('axios');
 
-const fetch = (url) => axios.get(url, { timeout: 3000 });
+const requestConfig = { timeout: 3000 };
 
-const getResponsePromises = (urls) => urls.map((url) => fetch(url));
+const getResponsePromises = (urls) => urls.map((url) => axios.get(url, requestConfig));
 
-module.exports = {
-  getResponsePromises,
-};
+module.exports = { getResponsePromises };

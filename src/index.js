@@ -2,7 +2,7 @@ const allSettled = require('promise.allsettled');
 const compose = require('lodash.compose');
 const { getValidUrls } = require('./helpers/urlVerifier');
 const { getResponsePromises } = require('./components/fetcher');
-const transform = require('./components/transformer');
+const { transform } = require('./components/transformer');
 
 const settlePromises = (promises) => allSettled(promises);
 
@@ -13,6 +13,4 @@ const fetch = async (urls) => {
   return transform(await res(urls));
 };
 
-module.exports = {
-  fetch: (urls) => fetch(urls),
-};
+module.exports = { fetch };

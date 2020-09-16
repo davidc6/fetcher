@@ -17,5 +17,5 @@ const getValidUrls = (urls) => {
 
 module.exports = {
   getValidUrls,
-  isValid: (url) => verifyUrl(url),
+  isValid: verifyUrl,
 };

@@ -28,13 +28,16 @@ const transform = (responses) => {
       const { value: { config, data } } = response;
 
       return toStatusOK(config.url, data);
-    } if (response.status === 'rejected') {
+    }
+
+    if (response.status === 'rejected') {
       const { reason: { config, message } } = response;
 
       return toStatusError(config.url, message);
     }
+
     return toStatusUnknown();
   });
 };
 
-module.exports = transform;
+module.exports = { transform };
