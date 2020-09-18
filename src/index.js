@@ -8,9 +8,9 @@ const settlePromises = (promises) => allSettled(promises);
 
 const fetch = async (urls) => {
   // compose is an alias of flowRight - https://github.com/lodash/lodash/blob/4.17.15-npm/flowRight.js
-  const res = compose(settlePromises, getResponsePromises, getValidUrls);
+  const get = compose(settlePromises, getResponsePromises, getValidUrls);
 
-  return transform(await res(urls));
+  return transform(await get(urls));
 };
 
 module.exports = { fetch };

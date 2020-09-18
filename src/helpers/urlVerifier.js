@@ -1,10 +1,8 @@
-const URL_REGEX = /[(http(s)?)://(www.)?a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
+const VALID_URL_REGEX = /[(http(s)?)://(www.)?a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
 
-const verifyUrl = (url) => {
-  const regex = new RegExp(URL_REGEX);
-  const isValidUrl = regex.test(url);
-
-  return isValidUrl;
+const isValidUrl = (url) => {
+  const regex = new RegExp(VALID_URL_REGEX);
+  return regex.test(url);
 };
 
 const getValidUrls = (urls) => {
@@ -12,10 +10,10 @@ const getValidUrls = (urls) => {
     throw Error('Invalid input type. Please provide an array of urls.');
   }
 
-  return urls.filter((url) => verifyUrl(url));
+  return urls.filter((url) => isValidUrl(url));
 };
 
 module.exports = {
   getValidUrls,
-  isValid: verifyUrl,
+  isValidUrl,
 };

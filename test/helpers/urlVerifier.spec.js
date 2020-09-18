@@ -1,14 +1,14 @@
-const { getValidUrls, isValid } = require('../../src/helpers/urlVerifier');
+const { getValidUrls, isValidUrl } = require('../../src/helpers/urlVerifier');
 
 describe('isValid()', () => {
   test('should return true for valid urls', () => {
-    const result = isValid('https://google.com');
+    const result = isValidUrl('https://google.com');
 
     expect(result).toBe(true);
   });
 
   test('should return true for invalid urls', () => {
-    const result = isValid('1234');
+    const result = isValidUrl('1234');
 
     expect(result).toBe(false);
   });
