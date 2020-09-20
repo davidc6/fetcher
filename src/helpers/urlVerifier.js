@@ -7,7 +7,7 @@ const isValidUrl = (url) => {
 
 const getValidUrls = (urls) => {
   if (!Array.isArray(urls)) {
-    throw Error('Invalid input type. Please provide an array of urls.');
+    throw new Error('Invalid input type. Please provide an array of urls.');
   }
 
   return urls.filter((url) => isValidUrl(url));

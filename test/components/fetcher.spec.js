@@ -8,7 +8,7 @@ describe('fetcher', () => {
     const mockData = { propOne: 'prop-one' };
     axios.get.mockImplementation(() => Promise.resolve(mockData));
 
-    await expect(fetcher.getResponsePromises(['a', 'b'])[0]).resolves.toEqual(mockData);
-    await expect(fetcher.getResponsePromises(['a', 'b'])[1]).resolves.toEqual(mockData);
+    await expect(fetcher.getResponseAsync(['a', 'b'])[0]).resolves.toEqual(mockData);
+    await expect(fetcher.getResponseAsync(['a', 'b'])[1]).resolves.toEqual(mockData);
   });
 });
