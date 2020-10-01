@@ -1,4 +1,4 @@
-const { transform } = require('../../src/components/transformer');
+const { transformResponse } = require('../../src/components/transformer');
 
 describe('transformer', () => {
   const mockFullfilledPromise = {
@@ -17,14 +17,10 @@ describe('transformer', () => {
     },
   };
 
-  test('should return an empty array if non-array data type is passed in', () => {
-    expect(transform('some-string')).toEqual([]);
-  });
-
   test('should transform a fulfilled promise input into a valid data structure', () => {
     const mockData = [mockFullfilledPromise];
 
-    expect(transform(mockData)).toEqual([{
+    expect(transformResponse(mockData)).toEqual([{
       status: 'ok',
       url: 'some-url',
       data: { propOne: 'prop-one' },
@@ -34,7 +30,7 @@ describe('transformer', () => {
   test('should transform a rejected promise input into a valid data structure', () => {
     const mockData = [mockRejectedPromise];
 
-    expect(transform(mockData)).toEqual([{
+    expect(transformResponse(mockData)).toEqual([{
       status: 'error',
       url: 'some-url',
       message: 'Some error.',
@@ -45,7 +41,7 @@ describe('transformer', () => {
   test('should transform a mixture of fulfilled and rejected promise input into a valid data structure', () => {
     const mockInput = [mockFullfilledPromise, mockRejectedPromise];
 
-    expect(transform(mockInput)).toEqual([
+    expect(transformResponse(mockInput)).toEqual([
       {
         status: 'ok',
         url: 'some-url',
@@ -70,7 +66,7 @@ describe('transformer', () => {
     };
     const mockData = [mockInput];
 
-    expect(transform(mockData)).toEqual([{
+    expect(transformResponse(mockData)).toEqual([{
       status: 'unknown',
       url: null,
       message: 'Cannot establish the status of a promise.',

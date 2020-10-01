@@ -18,26 +18,20 @@ const toStatusUnknown = () => ({
   data: null,
 });
 
-const transform = (responses) => {
-  if (!Array.isArray(responses)) {
-    return [];
+const transformResponse = (responses) => responses.map((response) => {
+  if (response.status === 'fulfilled') {
+    const { value: { config, data } } = response;
+
+    return toStatusOK(config.url, data);
   }
 
-  return responses.map((response) => {
-    if (response.status === 'fulfilled') {
-      const { value: { config, data } } = response;
+  if (response.status === 'rejected') {
+    const { reason: { config, message } } = response;
 
-      return toStatusOK(config.url, data);
-    }
+    return toStatusError(config.url, message);
+  }
 
-    if (response.status === 'rejected') {
-      const { reason: { config, message } } = response;
+  return toStatusUnknown();
+});
 
-      return toStatusError(config.url, message);
-    }
-
-    return toStatusUnknown();
-  });
-};
-
-module.exports = { transform };
+module.exports = { transformResponse };
