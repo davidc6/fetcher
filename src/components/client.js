@@ -3,16 +3,22 @@ const R = require("ramda")
 const F = require("fluture")
 const { toOK, toError } = require("./transformer")
 
-const DEFAULT_TIMEOUT = 3000
+const DEFAULT_TIMEOUT = 2000
 
-const createClient = (reqConfig) => {
+const getTimeout = R.curry((url, globalConfig) => {
+  if (url.timeout) return url.timeout // individual timeout take priority
+  if (globalConfig.timeout) return globalConfig.timeout // then global
+  return DEFAULT_TIMEOUT // last is the default
+})
+
+const createClient = (reqConfig, url) => {
   if (reqConfig.client === "request") {
     return {}
   }
 
   // axios - default
   const config = {
-    timeout: DEFAULT_TIMEOUT,
+    timeout: getTimeout(url, reqConfig),
     ...R.omit(["client", "concurrencyNumber"], reqConfig),
   }
 
@@ -25,7 +31,7 @@ const createUrlObject = (url) => ({
 })
 
 const createRequestObject = R.curry((config, url) => {
-  const client = createClient(config)
+  const client = createClient(config, url)
 
   return {
     url: createUrlObject(url),
@@ -38,6 +44,7 @@ const createRequestConfig = R.curry((clientConfig, urls) =>
   R.map(createRequestObject(clientConfig), urls),
 )
 
+// handle response
 const left = R.curry((url, res) => toError(url, res)) // failure
 const right = R.curry((url, res) => toOK(url, res)) // success
 
