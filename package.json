@@ -11,13 +11,16 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.20.0",
-    "lodash.compose": "^2.4.1",
-    "promise.allsettled": "^1.0.2"
+    "fluture": "^13.0.1",
+    "ramda": "^0.27.1"
   },
   "devDependencies": {
     "eslint": "^7.8.1",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-import": "^2.22.0",
-    "jest": "^26.4.2"
+    "eslint-plugin-prettier": "^3.2.0",
+    "jest": "^26.4.2",
+    "prettier": "2.2.1"
   }
 }

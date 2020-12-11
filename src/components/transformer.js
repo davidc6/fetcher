@@ -1,37 +1,43 @@
-const toStatusOK = (url, data) => ({
-  status: 'ok',
-  url,
-  data,
-});
-
-const toStatusError = (url, message) => ({
-  status: 'error',
-  message: `${message}.`,
-  url,
-  data: null,
-});
-
-const toStatusUnknown = () => ({
-  status: 'unknown',
-  message: 'Cannot establish the status of a promise.',
-  url: null,
-  data: null,
-});
-
-const transformResponse = (responses) => responses.map((response) => {
-  if (response.status === 'fulfilled') {
-    const { value: { config, data } } = response;
-
-    return toStatusOK(config.url, data);
+const toOK = (req, res) => {
+  if (req.client === "request") {
+    return {}
   }
 
-  if (response.status === 'rejected') {
-    const { reason: { config, message } } = response;
+  // axios
+  return {
+    status: res.status,
+    state: "ok",
+    url: req.url.url,
+    required: req.url.required,
+    data: res.data,
+  }
+}
 
-    return toStatusError(config.url, message);
+const toError = (req, res) => {
+  if (!req.url.isValidUrl) {
+    return {
+      status: null,
+      state: "error",
+      message: req.url.message || "Invalid URL",
+      url: req.url.url,
+      required: req.url.required,
+      data: null,
+    }
   }
 
-  return toStatusUnknown();
-});
+  if (req.client === "request") {
+    return {}
+  }
 
-module.exports = { transformResponse };
+  // axios
+  return {
+    status: res.status,
+    state: "error",
+    message: `${res.toJSON().message}.`,
+    url: req.url.url,
+    required: req.url.required,
+    data: null,
+  }
+}
+
+module.exports = { toOK, toError }

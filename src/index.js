@@ -1,15 +1,29 @@
-const allSettled = require('promise.allsettled');
-const compose = require('lodash.compose');
-const { getValidUrls } = require('./helpers/urlVerifier');
-const { getResponseAsync } = require('./components/fetcher');
-const { transformResponse } = require('./components/transformer');
+const R = require("ramda")
+const F = require("fluture")
+const { getValidUrls } = require("./helpers/urlVerifier")
+const { createRequestConfig, left, right } = require("./components/client")
 
-const allSettledAsync = (promises) => allSettled(promises);
+const getDataForUrls = R.curry((config, urls) => {
+  // create an array of Futures
+  const request = R.compose(createRequestConfig(config), getValidUrls)
 
-const getDataForUrls = async (urls) => {
-  const responseAsync = compose(allSettledAsync, getResponseAsync, getValidUrls);
+  // map over Futures and process (success or failure)
+  const processUrls = request(urls).map((urlObj) =>
+    F.coalesce(left(urlObj))(right(urlObj))(urlObj.future),
+  )
 
-  return transformResponse(await responseAsync(urls));
-};
+  const concurrencyNumber =
+    config.concurrencyNumber && typeof config.concurrencyNumber === "number"
+      ? config.concurrencyNumber
+      : 1
 
-module.exports = { fetch: getDataForUrls };
+  // make 5 requests in parallel
+  const parallelFutures = F.parallel(concurrencyNumber)(processUrls)
+
+  // return Promise
+  return F.promise(parallelFutures)
+})
+
+module.exports = {
+  get: getDataForUrls,
+}

@@ -1,4 +1,4 @@
-# URL Fetcher (url-fetcher)
+# URL Fetcher (url-fetcher) [WIP]
 
 `Promise` based url fetcher library.
 
@@ -18,7 +18,7 @@ const urlFetcher = require('url-fetcher');
 const urls = [
   'https://google.co.uk',
   'https://bbc.co.uk',
-  'https://www.ft.com'
+  'https://www.youtube.com'
 ];
 
 urlFetcher.fetch(urls)
@@ -62,11 +62,11 @@ The response schema will always contain an array of objects.
 ]
 ```
 
-## Future improvements
+## Future improvements (TODOs)
 
 - Introduce "chunking" (divide and conquer technique) for processing large arrays. For instance, if an array of 100 urls is passed in then instead of making 100 requests at once (concurrently), the mechanism will make 10 requests at a time (10 times), combine results and return as a single array.
 
-- Allow a request config to be passed in on initialisation. For example:
+- [WIP] Allow a request config to be passed in on initialisation. For example:
 
 ```javascript
 const urlFetcher = require('url-fetcher');
@@ -74,7 +74,7 @@ const urlFetcher = require('url-fetcher');
 const urls = [
   'https://google.co.uk',
   'https://bbc.co.uk',
-  'https://www.ft.com'
+  'https://www.youtube.com'
 ];
 
 const fetcher = urlFetcher({ timeout: 2000, header: { accept: 'application/json' } });
@@ -87,3 +87,7 @@ fetcher.fetch(urls)
 - Abstract HTTP request client out. At the moment, the library is coupled to axios. This can be achieved by either passing in a configured HTTP client on initialisation or by providing several pre-configured options in the library itself.
 
 - Enable the library to accept a single url (as a string data type) rather than an array of urls.
+
+- Specify response data structure e.g. { response, status }
+
+- Add TypeScipt
