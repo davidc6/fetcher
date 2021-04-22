@@ -1,19 +1,21 @@
-# URL Fetcher (url-fetcher) [WIP]
+# URL Fetcher (fetcher)
+
+:construction::construction_worker: This repo is updated frequently :construction::construction_worker:
 
 `Promise` based url fetcher library.
 
-This library makes concurrent requests to provided urls and returns an array of objects of either successfully resolved or rejected promises that contain response payload. The library does not use `Promise.allSettled` (uses a [shim](https://www.npmjs.com/package/promise.allsettled) instead) yet as this method is only available from Node 12.9.0 onwards.
+This library makes concurrent requests to the provided urls and returns an array of objects of either successfully resolved or rejected promises that contain response payload. This library does not use `Promise.allSettled` (uses a [shim](https://www.npmjs.com/package/promise.allsettled) instead) yet as this method is only available from Node 12.9.0 onwards.
 
-The source code for url-fetcher is written in a functional programming style and favours small functions, and function composition.
+The source code for `fetcher` is written in a functional programming paradigm and favours small functions and function composition.
 
 ## Installing
 
-Pull the repo and link locally using `npm link url-fetcher`. (The library is not yet published to npm).
+Pull the repo and link locally using `npm link url-fetcher`. (The library is not published to npm yet).
 
 ## Example
 
 ```javascript
-const urlFetcher = require('url-fetcher');
+const fetcher = require('url-fetcher');
 
 const urls = [
   'https://google.co.uk',
@@ -21,9 +23,9 @@ const urls = [
   'https://www.youtube.com'
 ];
 
-urlFetcher.fetch(urls)
+fetcher
+  .get(urls)
   .then(res => res)
-  .catch(e => e);
 ```
 
 ## Tests
@@ -38,7 +40,7 @@ This library uses Jest testing framework. Jest is a lightweight and fast library
 
 ## API
 
-**urlFetcher.fetch(urls)** - accepts an array of urls to fetch. If any other data type is passed in, an error will be thrown.
+**fetcher.get(urls)** - accepts an array of urls to fetch. If any other data type is passed in, an error will be thrown.
 
 ## Response Schema
 
@@ -79,9 +81,9 @@ const urls = [
 
 const fetcher = urlFetcher({ timeout: 2000, header: { accept: 'application/json' } });
 
-fetcher.fetch(urls)
+fetcher
+  .get(urls)
   .then(res => res)
-  .catch(e => e);
 ```
 
 - Abstract HTTP request client out. At the moment, the library is coupled to axios. This can be achieved by either passing in a configured HTTP client on initialisation or by providing several pre-configured options in the library itself.
