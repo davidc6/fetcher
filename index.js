@@ -1,3 +1,3 @@
-const entrypoint = require('./src/index');
+const entrypoint = require('./src/index')
 
-module.exports = entrypoint;
+module.exports = entrypoint
