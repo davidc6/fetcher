@@ -1,26 +1,26 @@
 {
-  "name": "url-fetcher",
-  "version": "1.0.0",
-  "description": "A simple package to request / fetch multiple urls",
-  "main": "index.js",
-  "scripts": {
-    "lint": "eslint ./",
-    "test": "jest --coverage=true"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.20.0",
-    "fluture": "^13.0.1",
-    "ramda": "^0.27.1"
-  },
-  "devDependencies": {
-    "eslint": "^7.8.1",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^7.0.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-prettier": "^3.2.0",
-    "jest": "^26.4.2",
-    "prettier": "2.2.1"
-  }
+	"name": "url-fetcher",
+	"version": "0.0.2",
+	"description": "A simple package to request / fetch multiple urls",
+	"main": "index.js",
+	"scripts": {
+		"lint": "eslint ./",
+		"test": "jest --coverage=true"
+	},
+	"author": "David Chubabriya",
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^0.20.0",
+		"fluture": "^13.0.1",
+		"ramda": "^0.27.1"
+	},
+	"devDependencies": {
+		"eslint": "^7.8.1",
+		"eslint-config-airbnb-base": "^14.2.0",
+		"eslint-config-prettier": "^7.0.0",
+		"eslint-plugin-import": "^2.22.0",
+		"eslint-plugin-prettier": "^3.2.0",
+		"jest": "^26.4.2",
+		"prettier": "2.2.1"
+	}
 }
