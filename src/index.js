@@ -1,30 +1,37 @@
-const R = require("ramda")
-const F = require("fluture")
+const { curry, compose, map, propOr } = require("ramda")
+const { coalesce, parallel, promise } = require("fluture")
+
 const { getValidUrls } = require("./helpers/urlVerifier")
 const { createRequestConfig, left, right } = require("./components/client")
 
-const getConcurrencyNumber = (config) =>
-  config.concurrencyNumber && typeof config.concurrencyNumber === "number"
-    ? config.concurrencyNumber
-    : 1
-
-const getDataForUrls = R.curry((config, urls) => {
-  // sad and happy paths
-  const control = (urlObj) => F.coalesce(left(urlObj))(right(urlObj))
+const getDataForUrls = curry((config, urls) => {
   /**
+   * coalesce - bring both branches together into a whole
+   * left - failure / sad path
+   * right - success / happy path
+   */
+  const control = (urlObj) => coalesce(left(urlObj))(right(urlObj))
+
+  /**
+   * Function composition
+   * 
    * 1. validate urls
    * 2. create request config { url: object = {}, futures: [] = [], client: string = '' }
    * 3. prepare data structures and computations
    */
-  const prepareRequests = R.compose(
-    R.map((urlObj) => control(urlObj)(urlObj.future)),
+  const prepareRequests = compose(
+    map((urlObj) => control(urlObj)(urlObj.future)),
     createRequestConfig(config),
     getValidUrls,
   )
 
-  // parallel function runs computations
-  // we return Promise instead of Future to make outcome "thenable" for clients
-  return F.promise(F.parallel(getConcurrencyNumber(config))(prepareRequests(urls)))
+  /**
+   * parallel - runs computations
+   * a Promise gets returned instead of Future to make outcome "thenable" for clients
+   */
+  return promise(
+    parallel(propOr(1, "concurrencyNumber", config))(prepareRequests(urls))
+  )
 })
 
 module.exports = {
